@@ -76,8 +76,6 @@ services:
       - ALL
     networks:
       - rtube-internal
-    depends_on:
-      - nginx-rtmp
 
 volumes:
   rtmp-recordings:
