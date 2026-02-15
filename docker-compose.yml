@@ -32,7 +32,7 @@ services:
     container_name: rtube-rtmp
     restart: unless-stopped
     ports:
-      - "1935:1935"
+      - "1936:1935"
     volumes:
       - ./nginx-rtmp/nginx.conf:/etc/nginx/nginx.conf:ro
       - rtmp-recordings:/recordings

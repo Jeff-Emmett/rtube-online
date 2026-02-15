@@ -132,7 +132,7 @@ export default function LivePage() {
                     <ol className="text-slate-400 space-y-2 list-decimal list-inside">
                       <li>Open <strong>Settings &rarr; Stream</strong></li>
                       <li>Set Service to <strong>Custom</strong></li>
-                      <li>Server: <code className="bg-black/30 px-2 py-0.5 rounded text-slate-300">rtmp://rtube.online/live</code></li>
+                      <li>Server: <code className="bg-black/30 px-2 py-0.5 rounded text-slate-300">rtmp://rtube.online:1936/live</code></li>
                       <li>Stream Key: choose any key (e.g. <code className="bg-black/30 px-2 py-0.5 rounded text-slate-300">community-meeting</code>)</li>
                       <li>Click <strong>Start Streaming</strong></li>
                     </ol>
@@ -140,7 +140,7 @@ export default function LivePage() {
                   <div>
                     <h3 className="font-medium text-red-400 mb-2">FFmpeg</h3>
                     <code className="block bg-black/30 p-3 rounded-lg text-slate-300 text-xs overflow-x-auto">
-                      ffmpeg -i input.mp4 -c:v libx264 -preset veryfast -c:a aac -f flv rtmp://rtube.online/live/your-key
+                      ffmpeg -i input.mp4 -c:v libx264 -preset veryfast -c:a aac -f flv rtmp://rtube.online:1936/live/your-key
                     </code>
                   </div>
                 </div>
