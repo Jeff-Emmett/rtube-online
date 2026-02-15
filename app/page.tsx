@@ -33,9 +33,12 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 pt-20 pb-16">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-red-400 via-pink-300 to-orange-300 bg-clip-text text-transparent">
-            Community Video Platform
+            Community Video Hosting, Storage & Streaming
           </h1>
-          <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-300 mb-4 leading-relaxed">
+            Who needs YouTube, when you have (ou)rTube!
+          </p>
+          <p className="text-base text-slate-400 mb-8 leading-relaxed">
             Self-hosted video recording, live streaming, and storage for your rSpace community.
             No corporate surveillance. No algorithmic feeds. Just your community&apos;s content.
           </p>

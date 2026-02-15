@@ -14,11 +14,11 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'rTube - Community Video Platform',
-  description: 'Self-hosted video recording, live streaming, and storage for rSpace communities. Local-first, zero-knowledge, community-owned.',
+  title: 'rTube - Community Video Hosting, Storage & Streaming',
+  description: 'Who needs YouTube, when you have (ou)rTube! Self-hosted video recording, live streaming, and storage for rSpace communities.',
   openGraph: {
-    title: 'rTube - Community Video Platform',
-    description: 'Self-hosted video recording, live streaming, and storage for rSpace communities.',
+    title: 'rTube - Community Video Hosting, Storage & Streaming',
+    description: 'Who needs YouTube, when you have (ou)rTube! Self-hosted video recording, live streaming, and storage for rSpace communities.',
     type: 'website',
     url: 'https://rtube.online',
   },
