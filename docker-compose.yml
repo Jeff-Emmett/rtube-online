@@ -1,0 +1,84 @@
+services:
+  rtube:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rtube
+    restart: unless-stopped
+    environment:
+      - R2_ENDPOINT=${R2_ENDPOINT}
+      - R2_BUCKET=${R2_BUCKET:-rtube-videos}
+      - R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID}
+      - R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY}
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rtube.rule=Host(`rtube.online`) || Host(`www.rtube.online`)"
+      - "traefik.http.routers.rtube.entrypoints=web,websecure"
+      - "traefik.http.services.rtube.loadbalancer.server.port=3000"
+      - "traefik.docker.network=traefik-public"
+    networks:
+      - traefik-public
+      - rtube-internal
+
+  nginx-rtmp:
+    image: tiangolo/nginx-rtmp:latest
+    container_name: rtube-rtmp
+    restart: unless-stopped
+    ports:
+      - "1935:1935"
+    volumes:
+      - ./nginx-rtmp/nginx.conf:/etc/nginx/nginx.conf:ro
+      - rtmp-recordings:/recordings
+      - rtmp-hls:/hls
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rtube-hls.rule=Host(`rtube.online`) && PathPrefix(`/hls`)"
+      - "traefik.http.routers.rtube-hls.entrypoints=web,websecure"
+      - "traefik.http.services.rtube-hls.loadbalancer.server.port=8080"
+      - "traefik.docker.network=traefik-public"
+    networks:
+      - traefik-public
+      - rtube-internal
+
+  archive-worker:
+    build:
+      context: .
+      dockerfile: nginx-rtmp/Dockerfile.archive
+    container_name: rtube-archive
+    restart: unless-stopped
+    environment:
+      - R2_BUCKET=${R2_BUCKET:-rtube-videos}
+    volumes:
+      - rtmp-recordings:/recordings
+      - /root/.config/rclone:/root/.config/rclone:ro
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - rtube-internal
+    depends_on:
+      - nginx-rtmp
+
+volumes:
+  rtmp-recordings:
+  rtmp-hls:
+
+networks:
+  traefik-public:
+    external: true
+  rtube-internal:
+    driver: bridge

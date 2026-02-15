@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg curl unzip && \
+    curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip && \
+    unzip rclone-current-linux-amd64.zip && \
+    mv rclone-*-linux-amd64/rclone /usr/local/bin/ && \
+    rm -rf rclone-* && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir flask gunicorn
+
+WORKDIR /app
+COPY nginx-rtmp/scripts/archive-worker.py .
+
+EXPOSE 8081
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8081", "--workers", "2", "--timeout", "300", "archive-worker:app"]
